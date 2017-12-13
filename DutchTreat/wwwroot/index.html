@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<link href="css/site.css" rel="stylesheet" />
+</head>
+<body>
+	<h1>Dutch Treat</h1>
+	
+	<div class="product-info">
+		<img src="img/VanGogh.jpg" />
+		
+		<ul class="product-props">
+			<li>Price: $9.99</li>
+			<li>Artist: Van Gogh</li>
+			<li>Title: </li>
+			<li>Description: Self-Portrait</li>
+		</ul>
+		<button id="buy-button">Buy</button>
+	</div>
+
+	<div id="the-form">
+		<form>
+			<label>
+				Your Name:<br />
+				<input />
+			</label>
+			<br />
+			<label>
+				Email:<br />
+				<input type="email" />
+			</label>
+			<br />
+			<label>
+				Subject:<br />
+				<input type="text" />
+			</label>
+			<br />
+			<label>
+				Message:<br />
+				<textarea rows="4"></textarea>
+			</label>
+			<br />
+			<input type="submit" value="Send Message" />
+		</form>
+	</div>
+
+	<div>
+		<div id="login-toggle">Login</div>
+		<form class="popup-form">
+			<div>
+				<label>Username:</label>
+				<input />
+			</div>
+			<div>
+				<label>Password:</label>
+				<input type="password" />
+			</div>
+			<div>
+				<input type="checkbox" />
+				<label>Remember Me?</label>
+			</div>
+			<div>
+				<input type="submit" value="Login" />
+			</div>
+		</form>
+	</div>
+
+	<script src="lib/jquery/dist/jquery.min.js"></script>
+	<script src="js/index.js"></script>
+</body>
+</html>
