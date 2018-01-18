@@ -11,6 +11,8 @@ using DutchTreat.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using AutoMapper;
+using DutchTreat.Data.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace DutchTreat
 {
@@ -28,6 +30,12 @@ namespace DutchTreat
 		// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddIdentity<StoreUser, IdentityRole>(cfg =>
+			{
+				cfg.User.RequireUniqueEmail = true;
+			})
+				.AddEntityFrameworkStores<DutchContext>();
+
 			services.AddDbContext<DutchContext>( cfg => {
 				cfg.UseSqlServer(_config.GetConnectionString("DutchConnectionString"));
 			});
@@ -62,6 +70,8 @@ namespace DutchTreat
 
 			app.UseStaticFiles();
 
+			app.UseAuthentication();
+
 			app.UseMvc(cfg =>
 			{
 				cfg.MapRoute("Default", "{controller}/{action}/{id?}", new { Controller = "App", Action = "Index" });
@@ -73,7 +83,7 @@ namespace DutchTreat
 				using (var scope = app.ApplicationServices.CreateScope())
 				{
 					var seeder = scope.ServiceProvider.GetService<DutchSeeder>();
-					seeder.Seed();
+					seeder.Seed().Wait();
 				}
 			}
 
