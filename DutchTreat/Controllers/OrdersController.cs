@@ -15,7 +15,6 @@ namespace DutchTreat.Controllers
 	[Route("api/[Controller]")]
   public class OrdersController : Controller
 	{
-
 		private readonly IDutchRepository _repository;
 		private readonly ILogger<ProductsController> _logger;
 		private readonly IMapper _mapper;

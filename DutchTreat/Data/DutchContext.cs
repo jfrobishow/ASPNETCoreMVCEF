@@ -1,4 +1,5 @@
 ﻿using DutchTreat.Data.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,18 +9,20 @@ using System.Threading.Tasks;
 
 namespace DutchTreat.Data
 {
-	public class DutchContext : DbContext
+	public class DutchContext : IdentityDbContext<StoreUser>
 	{
 
 		public DutchContext(DbContextOptions<DutchContext> options) : base(options)
 		{
 
 		}
-		
+
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<OrderItem>()
 					.HasKey(o => new { o.OrderId, o.ProductId });
+
+			base.OnModelCreating(modelBuilder);
 		}
 
 		public DbSet<Product> Products { get; set; }
