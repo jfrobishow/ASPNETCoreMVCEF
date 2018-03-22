@@ -30,7 +30,7 @@ namespace DutchTreat.Data
 		{
 			_ctx.Database.EnsureCreated();
 
-			var user = await _userManager.FindByEmailAsync("jfrobishow@gmail.com");
+			var user = await _userManager.FindByEmailAsync("jf@example.com");
 
 			if(user == null)
 			{
@@ -38,9 +38,9 @@ namespace DutchTreat.Data
 				{
 					FirstName = "JF",
 					LastName = "JF",
-					UserName = "jfrobishow@gmail.com",
-					Email = "jfrobishow@gmail.com"
-				};
+					UserName = "jf@example.com",
+					Email = "jf@example.com"
+                };
 
 				var result = await _userManager.CreateAsync(user, "P@ssw0rd!");
 				if(result != IdentityResult.Success)

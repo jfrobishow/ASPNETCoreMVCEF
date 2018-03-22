@@ -2,6 +2,8 @@
 using DutchTreat.Data;
 using DutchTreat.Data.Entities;
 using DutchTreat.ViewModels;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,7 +15,8 @@ using System.Threading.Tasks;
 namespace DutchTreat.Controllers
 {
 	[Route("api/orders/{orderid}/items")]
-	public class OrderItemsController : Controller
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public class OrderItemsController : Controller
 	{
 		private readonly IDutchRepository _repository;
 		private readonly ILogger<OrderItemsController> _logger;
@@ -29,7 +32,7 @@ namespace DutchTreat.Controllers
 		[HttpGet]
 		public IActionResult Get(int orderId)
 		{
-			var order = _repository.GetOrderById(orderId);
+			var order = _repository.GetOrderById(User.Identity.Name, orderId);
 			if (order != null)
 			{
 				return Ok(_mapper.Map<IEnumerable<OrderItem>, IEnumerable<OrderItemViewModel>>(order.Items));
@@ -43,7 +46,7 @@ namespace DutchTreat.Controllers
 		[HttpGet("{index}")]
 		public IActionResult Get(int orderId, int index)
 		{
-			var order = _repository.GetOrderById(orderId);
+			var order = _repository.GetOrderById(User.Identity.Name, orderId);
 			if (order != null)
 			{
 				if(index > 0 && order.Items.Count > index -1)
@@ -61,5 +64,7 @@ namespace DutchTreat.Controllers
 				return NotFound();
 			}
 		}
+
+        //Implement post, put, delete to manage an order, etc.
 	}
 }

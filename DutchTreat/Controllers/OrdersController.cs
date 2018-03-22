@@ -9,10 +9,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace DutchTreat.Controllers
 {
 	[Route("api/[Controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
   public class OrdersController : Controller
 	{
 		private readonly IDutchRepository _repository;
@@ -31,7 +34,9 @@ namespace DutchTreat.Controllers
 		{
 			try
 			{
-				var results = _repository.GetAllOrders(includeItems);
+                var username = User.Identity.Name;
+
+				var results = _repository.GetAllOrders(username, includeItems);
 				return Ok(_mapper.Map<IEnumerable<Order>, IEnumerable<OrderViewModel>>(results));
 			}
 			catch (Exception ex)
@@ -46,7 +51,7 @@ namespace DutchTreat.Controllers
 		{
 			try
 			{
-				var order = _repository.GetOrderById(id);
+				var order = _repository.GetOrderById(User.Identity.Name, id);
 				if (order != null)
 				{
 					return Ok(_mapper.Map<Order, OrderViewModel>(order));
@@ -71,7 +76,6 @@ namespace DutchTreat.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-
 					var newOrder = _mapper.Map<OrderViewModel, Order>(model);
 
 					if(newOrder.OrderDate == DateTime.MinValue)
@@ -84,6 +88,7 @@ namespace DutchTreat.Controllers
 					{
 						var vm = _mapper.Map<Order, OrderViewModel>(newOrder);
 
+                        //Created is a 201 http
 						return Created($"/api/orders/{vm.OrderId}", vm);
 					}
 				}

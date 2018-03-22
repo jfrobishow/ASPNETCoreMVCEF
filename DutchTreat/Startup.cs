@@ -13,12 +13,13 @@ using Microsoft.Extensions.Configuration;
 using AutoMapper;
 using DutchTreat.Data.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace DutchTreat
 {
   public class Startup
   {
-
 		private readonly IConfiguration _config;
 
 		public Startup(IConfiguration config)
@@ -34,7 +35,19 @@ namespace DutchTreat
 			{
 				cfg.User.RequireUniqueEmail = true;
 			})
-				.AddEntityFrameworkStores<DutchContext>();
+				.AddEntityFrameworkStores<DutchContext>(); //supporting auth based on cookies
+
+            services.AddAuthentication()
+                .AddCookie()
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidIssuer = _config["Tokens:Issuer"],
+                        ValidAudience = _config["Tokens:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]))
+                    };
+                });
 
 			services.AddDbContext<DutchContext>( cfg => {
 				cfg.UseSqlServer(_config.GetConnectionString("DutchConnectionString"));

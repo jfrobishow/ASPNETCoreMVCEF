@@ -9,7 +9,7 @@ namespace DutchTreat.ViewModels
 {
 	public class OrderViewModel
 	{
-		public int OrderId { get; set; }
+		public int OrderId { get; set; } //automapper is mapping this with fluent syntax back to Id
 		public DateTime OrderDate { get; set; }
 		[Required]
 		[MinLength(4)]

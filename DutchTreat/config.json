@@ -3,9 +3,16 @@
 		"DutchConnectionString": "server=(localdb)\\MSSQLLocalDB;Database=DutchTreatDb;Integrated Security=true;MultipleActiveResultSets=true;"
 	},
 	"Logging": {
-			"LogLevel": {
-							"Default": "Information",
-							"Microsoft": "Warning"
-			}
+		"LogLevel": {
+			"Default": "Information",
+			"Microsoft": "Warning"
+		}
+	},
+	"Tokens": {
+			"Key": "asfdasdfasfdsfkjwljr324$$#@",
+			"Issuer": "localhost",
+			"Audience": "DutchTreat"
 	}
+
+
 }

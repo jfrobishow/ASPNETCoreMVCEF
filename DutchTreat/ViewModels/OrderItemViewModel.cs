@@ -17,6 +17,8 @@ namespace DutchTreat.ViewModels
 		public int ProductId { get; set; }
 
 		//Auto-mapper gets them by walking down the FK
+        //if you prefix them with the same name
+        //that the entity is referring to.
 		public string ProductCategory { get; set; }
 		public string ProductSize { get; set; }
 		public string ProductTitle { get; set; }
