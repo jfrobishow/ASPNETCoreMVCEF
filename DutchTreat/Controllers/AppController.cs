@@ -59,22 +59,27 @@ namespace DutchTreat.Controllers
 		[Authorize]
 		public IActionResult Shop()
 		{
-			/*
+            /* Using dutch context linq
 			var results = _context.Products
 				.OrderBy(p => p.Category)
 				.ToList();
 				return View();
 				*/
 
-			/*
+            /*
 			var results = from p in _context.Products
 										orderby p.Category
 										select p;
 			return View(results.ToList());
-	    */
+	        */
 
-			var results = _repository.GetAllProducts();
-			return View(results);
+            /* Using repository
+            var results = _repository.GetAllProducts();
+            return View(results);
+            */
+
+            //Using angular component, only show the form
+            return View();
 		}
 
 	}
